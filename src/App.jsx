@@ -1,12 +1,12 @@
-import React from 'react';
-import './styles/App.css';
-import Column from './components/Column';
-import useLocalStorage from './hooks/useLocalStorage';
-import { v4 as uuidv4 } from 'uuid';
-import { DragDropContext } from '@hello-pangea/dnd';
+import React from "react";
+import "./styles/App.css";
+import Column from "./components/Column";
+import useLocalStorage from "./hooks/useLocalStorage";
+import { v4 as uuidv4 } from "uuid";
+import { DragDropContext } from "@hello-pangea/dnd";
 
 const App = () => {
-  const [tasks, setTasks] = useLocalStorage('kanban-tasks', {
+  const [tasks, setTasks] = useLocalStorage("kanban-tasks", {
     todo: [],
     inprogress: [],
     done: [],
@@ -25,6 +25,16 @@ const App = () => {
     setTasks({
       ...tasks,
       [columnId]: newColumn,
+    });
+  };
+
+  const editTask = (columnId, taskId, newContent) => {
+    const updatedTasks = tasks[columnId].map((task) =>
+      task.id === taskId ? { ...task, content: newContent } : task
+    );
+    setTasks({
+      ...tasks,
+      [columnId]: updatedTasks,
     });
   };
 
@@ -58,24 +68,35 @@ const App = () => {
             columnId="todo"
             title="To Do"
             tasks={tasks.todo}
-            onAddTask={(content) => addTask('todo', content)}
-            onDeleteTask={(taskId) => deleteTask('todo', taskId)}
+            onAddTask={(content) => addTask("todo", content)}
+            onDeleteTask={(taskId) => deleteTask("todo", taskId)}
+            onEditTask={(taskId, newContent) =>
+              editTask("todo", taskId, newContent)
+            }
             showAddForm={true}
           />
+
           <Column
             columnId="inprogress"
             title="In Progress"
             tasks={tasks.inprogress}
             onAddTask={() => {}}
-            onDeleteTask={(taskId) => deleteTask('inprogress', taskId)}
+            onDeleteTask={(taskId) => deleteTask("inprogress", taskId)}
+            onEditTask={(taskId, newContent) =>
+              editTask("inprogress", taskId, newContent)
+            }
             showAddForm={false}
           />
+
           <Column
             columnId="done"
             title="Done"
             tasks={tasks.done}
             onAddTask={() => {}}
-            onDeleteTask={(taskId) => deleteTask('done', taskId)}
+            onDeleteTask={(taskId) => deleteTask("done", taskId)}
+            onEditTask={(taskId, newContent) =>
+              editTask("done", taskId, newContent)
+            }
             showAddForm={false}
           />
         </div>

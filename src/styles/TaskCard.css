@@ -28,3 +28,12 @@
     cursor: pointer;
   }
   
+  .task-edit-input {
+    flex: 1;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  

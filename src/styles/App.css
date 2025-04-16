@@ -93,5 +93,7 @@ body {
 
   .column {
     width: 90%;
+    position: relative;
+    right: 10px;
   }
 }

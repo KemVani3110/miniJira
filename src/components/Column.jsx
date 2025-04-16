@@ -9,6 +9,7 @@ const Column = ({
   tasks,
   onAddTask,
   onDeleteTask,
+  onEditTask,
   columnId,
   showAddForm,
 }) => {
@@ -28,6 +29,9 @@ const Column = ({
                 task={task}
                 index={index}
                 onDelete={() => onDeleteTask(task.id)}
+                onEdit={(taskId, newContent) =>
+                  onEditTask(task.id, newContent)
+                }
               />
             ))}
             {provided.placeholder}
