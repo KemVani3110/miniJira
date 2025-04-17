@@ -32,20 +32,29 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {editing ? (
-            <input
-              className="task-edit-input"
-              value={newContent}
-              ref={inputRef}
-              onChange={(e) => setNewContent(e.target.value)}
-              onKeyDown={handleKeyDown}
-              onBlur={() => setEditing(false)}
-            />
-          ) : (
-            <div className="task-content" onDoubleClick={handleDoubleClick}>
-              {task.content}
-            </div>
-          )}
+          <div className="task-content" onDoubleClick={handleDoubleClick}>
+            {editing ? (
+              <input
+                className="task-edit-input"
+                value={newContent}
+                ref={inputRef}
+                onChange={(e) => setNewContent(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={() => setEditing(false)}
+              />
+            ) : (
+              <>
+                <div>{task.content}</div>
+                {task.date && (
+                  <div className="task-date">
+                    <i className="fa-solid fa-calendar-days" style={{ marginRight: 4 }}></i>
+                    {new Date(task.date).toLocaleDateString()}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
           <button className="delete-btn" onClick={onDelete}>
             <i className="fa-solid fa-xmark"></i>
           </button>

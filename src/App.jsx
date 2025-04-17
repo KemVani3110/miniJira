@@ -13,8 +13,8 @@ const App = () => {
     done: [],
   });
 
-  const addTask = useCallback((columnId, content) => {
-    const newTask = { id: uuidv4(), content };
+  const addTask = useCallback((columnId, content, date = '') => {
+    const newTask = { id: uuidv4(), content, date };
     setTasks((prev) => ({
       ...prev,
       [columnId]: [...prev[columnId], newTask],
@@ -80,7 +80,7 @@ const App = () => {
               columnId={id}
               title={title}
               tasks={tasks[id]}
-              onAddTask={(content) => addTask(id, content)}
+              onAddTask={(content, date) => addTask(id, content, date)}
               onDeleteTask={(taskId) => deleteTask(id, taskId)}
               onEditTask={(taskId, content) => editTask(id, taskId, content)}
               showAddForm={showAddForm}
