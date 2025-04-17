@@ -64,3 +64,14 @@
   margin-top: 8px;
   white-space: nowrap;
 }
+
+.task-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.priority-icon {
+  font-size: 16px;
+}

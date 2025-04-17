@@ -2,16 +2,18 @@
   display: flex;
   margin-top: 10px;
   gap: 8px;
+  flex-wrap: wrap; 
 }
 
 .add-task-form input {
-  flex: 1;
-  padding: 16px 12px;
+  flex: 1 1 250px; 
+  padding: 12px;
   background-color: var(--input-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 14px;
+  box-sizing: border-box; 
 }
 
 .add-task-form input::placeholder {
@@ -27,8 +29,30 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
+  margin-top: 6px; 
 }
 
 .add-task-form button:hover {
   background-color: #187bcd;
 }
+
+.priority-select {
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 14px;
+  flex-basis: 120px; 
+}
+
+/* @media (max-width: 768px) {
+  .add-task-form {
+    flex-direction: column;
+    gap: 12px; 
+  }
+
+  .add-task-form button {
+    width: 100%; 
+  }
+} */

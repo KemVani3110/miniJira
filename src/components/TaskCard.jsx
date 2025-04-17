@@ -23,6 +23,19 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
     }
   };
 
+  const renderPriorityIcon = (priority) => {
+    switch (priority) {
+      case "low":
+        return "🟢 Low";
+      case "medium":
+        return "🟡 Medium";
+      case "high":
+        return '🔴 High';
+      default:
+        return null;
+    }
+  };
+
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided) => (
@@ -44,13 +57,17 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
               />
             ) : (
               <>
-                <div>{task.content}</div>
+                <div className="task-main">
+                  <span>{task.content}</span>
+                  {task.priority && (
+                    <span className="priority-icon">
+                      {renderPriorityIcon(task.priority)}
+                    </span>
+                  )}
+                </div>
                 {task.date && (
                   <div className="task-date">
-                    <i
-                      className="fa-solid fa-calendar-days"
-                      style={{ marginRight: 4 }}
-                    ></i>
+                    <i className="fa-solid fa-calendar-days" style={{ marginRight: 4 }}></i>
                     {new Date(task.date).toLocaleDateString()}
                   </div>
                 )}

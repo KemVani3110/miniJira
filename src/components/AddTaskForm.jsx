@@ -4,13 +4,15 @@ import "../styles/AddTaskForm.css";
 const AddTaskForm = ({ onAdd }) => {
   const [input, setInput] = useState("");
   const [date, setDate] = useState("");
+  const [priority, setPriority] = useState("medium"); // default medium
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim()) {
-      onAdd(input, date);
+      onAdd(input, date, priority);
       setInput("");
       setDate("");
+      setPriority("medium");
     }
   };
 
@@ -29,6 +31,16 @@ const AddTaskForm = ({ onAdd }) => {
         className="date-input"
         title="Chọn ngày"
       />
+      <select
+        value={priority}
+        onChange={(e) => setPriority(e.target.value)}
+        className="priority-select"
+        title="Chọn độ ưu tiên"
+      >
+        <option value="low">🟢 Low</option>
+        <option value="medium">🟡 Medium</option>
+        <option value="high">🔴 High</option>
+      </select>
       <button type="submit">
         <i className="fa-solid fa-plus"></i>
       </button>
