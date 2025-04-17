@@ -1,12 +1,12 @@
 .task-card {
-  background: linear-gradient(135deg, #dbe7ff, #edf2fb);
+  background: var(--task-bg-gradient);
   padding: 16px;
   margin-bottom: 12px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  transition: box-shadow 0.2s, transform 0.1s ease-in-out;
+  transition: box-shadow 0.2s, transform 0.1s ease-in-out, background 0.3s;
   position: relative;
   gap: 10px;
 }
@@ -20,7 +20,7 @@
   flex: 1;
   text-align: left;
   font-size: 16px;
-  color: #1f2937;
+  color: var(--text-color);
   font-weight: 500;
   word-break: break-word;
   line-height: 1.4;
@@ -31,34 +31,34 @@
   flex: 1;
   padding: 8px;
   font-size: 15px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   outline: none;
-  color: #1f2937;
-  background-color: #fff;
+  color: var(--text-color);
+  background-color: var(--input-bg);
 }
 
 .delete-btn {
   background: transparent;
   border: none;
-  color: #ef4444;
+  color: var(--delete-color);
   font-size: 18px;
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .delete-btn:hover {
-  color: #dc2626;
+  color: var(--delete-hover);
 }
 
 .task-date {
   font-size: 13px;
   font-weight: 500;
-  color: #334155;
+  color: var(--text-color);
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: #e2e8f0;
+  background-color: var(--input-bg);
   padding: 4px 10px;
   border-radius: 6px;
   margin-top: 8px;

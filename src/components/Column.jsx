@@ -40,8 +40,9 @@ const Column = ({
           </div>
         )}
       </Droppable>
-      {showAddForm && <AddTaskForm onAdd={(content, date) => onAddTask(content, date)} />}
-
+      {showAddForm && (
+        <AddTaskForm onAdd={(content, date) => onAddTask(content, date)} />
+      )}
     </div>
   );
 };

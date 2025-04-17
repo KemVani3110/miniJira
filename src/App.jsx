@@ -5,6 +5,7 @@ import Column from './components/Column';
 import useLocalStorage from './hooks/useLocalStorage';
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext } from '@hello-pangea/dnd';
+import ThemeToggle from './components/ThemeToggle';
 
 const App = () => {
   const [tasks, setTasks] = useLocalStorage('kanban-tasks', {
@@ -71,6 +72,7 @@ const App = () => {
 
   return (
     <div className="app">
+      <ThemeToggle />
       <h1>Kanban Board</h1>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="board">

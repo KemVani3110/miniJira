@@ -1,0 +1,97 @@
+:root {
+  --bg-color: #f8f9fa;
+  --text-color: #1a202c;
+
+  --card-bg: #ffffff;
+  --column-bg: #c3cce5;
+  --task-bg-gradient: linear-gradient(135deg, #dbe7ff, #edf2fb);
+
+  --border-color: #e2e8f0;
+  --input-bg: #ffffff;
+  --placeholder-color: #999;
+
+  --delete-color: #ef4444;
+  --delete-hover: #dc2626;
+}
+
+body.dark {
+  --bg-color: #1a202c;
+  --text-color: #f8f9fa;
+
+  --card-bg: #2d3748;
+  --column-bg: #2c3e50;
+  --task-bg-gradient: linear-gradient(135deg, #2d3748, #1e293b);
+
+  --border-color: #4a5568;
+  --input-bg: #3a4757;
+  --placeholder-color: #ccc;
+
+  --delete-color: #f87171;
+  --delete-hover: #f43f5e;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Column style */
+.column {
+  background-color: var(--column-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  flex: 1;
+  min-width: 250px;
+  margin: 0 10px;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+}
+
+.column h2 {
+  color: var(--text-color);
+}
+
+.add-task-form input {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+.add-task-form input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.theme-toggle-container {
+  width: 50px;
+  height: 26px;
+  border-radius: 20px;
+  background: var(--border-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  transition: background 0.3s;
+  margin-bottom: 12px;
+}
+
+.toggle-switch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s;
+}
+
+.toggle-switch.light {
+  transform: translateX(0);
+}
+
+.toggle-switch.dark {
+  transform: translateX(24px);
+}

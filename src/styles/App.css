@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background: #f0f2f5;
 }
 
@@ -31,8 +31,12 @@ h1 {
 }
 
 @keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }
 
 .board {
@@ -115,8 +119,6 @@ h1 {
   margin-left: 8px;
   transition: all 0.2s ease;
 }
-
-
 
 .add-task-form {
   display: flex;

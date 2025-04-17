@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { Draggable } from '@hello-pangea/dnd';
-import '../styles/TaskCard.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import React, { useState, useRef } from "react";
+import { Draggable } from "@hello-pangea/dnd";
+import "../styles/TaskCard.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const TaskCard = ({ task, index, onDelete, onEdit }) => {
   const [editing, setEditing] = useState(false);
@@ -14,10 +14,10 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onEdit(task.id, newContent);
       setEditing(false);
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       setEditing(false);
       setNewContent(task.content);
     }
@@ -47,7 +47,10 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
                 <div>{task.content}</div>
                 {task.date && (
                   <div className="task-date">
-                    <i className="fa-solid fa-calendar-days" style={{ marginRight: 4 }}></i>
+                    <i
+                      className="fa-solid fa-calendar-days"
+                      style={{ marginRight: 4 }}
+                    ></i>
                     {new Date(task.date).toLocaleDateString()}
                   </div>
                 )}
