@@ -15,7 +15,11 @@ const Column = ({
 }) => {
   return (
     <div className="column">
-      <h2>{title}</h2>
+      <h2>
+        <i className="fa-solid fa-list-check" style={{ marginRight: 6 }}></i>
+        {title} <span className="task-count">({tasks.length} task)</span>
+      </h2>
+
       <Droppable droppableId={columnId}>
         {(provided) => (
           <div

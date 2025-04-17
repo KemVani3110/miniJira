@@ -21,3 +21,10 @@
     min-height: 100px;
   }
   
+  .task-count {
+    font-size: 0.85em;
+    color: #666;
+    margin-left: 6px;
+    font-weight: normal;
+  }
+  
