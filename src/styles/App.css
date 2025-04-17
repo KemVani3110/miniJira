@@ -9,6 +9,32 @@ body {
   text-align: center;
 }
 
+h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeSlideIn 0.8s ease-out forwards, gradientMove 4s linear infinite;
+  background: linear-gradient(90deg, #6a5acd, #00bfff, #6a5acd);
+  background-size: 200% auto;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.4s ease, background-position 0.5s ease;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
 .board {
   display: flex;
   justify-content: space-around;
@@ -27,6 +53,11 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.column:hover {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
 }
 
 .column h2 {
@@ -48,11 +79,31 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.2s ease-in-out;
+  word-break: break-word;
+}
+
+.task-card:hover {
+  transform: scale(1.02);
+  background-color: #d5deff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .task-content {
   text-align: left;
   flex: 1;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+}
+
+.task-edit-input {
+  flex: 1;
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
 }
 
 .delete-btn {
@@ -62,7 +113,10 @@ body {
   font-size: 16px;
   cursor: pointer;
   margin-left: 8px;
+  transition: all 0.2s ease;
 }
+
+
 
 .add-task-form {
   display: flex;
@@ -77,11 +131,27 @@ body {
 
 .add-task-form button {
   padding: 6px 10px;
+  background-color: #00bfff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
+
+.add-task-form button:hover {
+  background-color: #007acc;
+}
+
 @media (max-width: 1024px) {
   .board {
     flex-direction: column;
     align-items: center;
+  }
+  .column {
+    width: 90%;
+    position: relative;
+    right: 10px;
   }
 }
 

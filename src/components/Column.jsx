@@ -1,8 +1,8 @@
-import React from 'react';
-import TaskCard from './TaskCard';
-import AddTaskForm from './AddTaskForm';
-import { Droppable } from '@hello-pangea/dnd';
-import '../styles/Column.css';
+import React from "react";
+import TaskCard from "./TaskCard";
+import AddTaskForm from "./AddTaskForm";
+import { Droppable } from "@hello-pangea/dnd";
+import "../styles/Column.css";
 
 const Column = ({
   title,
@@ -29,9 +29,7 @@ const Column = ({
                 task={task}
                 index={index}
                 onDelete={() => onDeleteTask(task.id)}
-                onEdit={(taskId, newContent) =>
-                  onEditTask(task.id, newContent)
-                }
+                onEdit={(id, content) => onEditTask(id, content)}
               />
             ))}
             {provided.placeholder}

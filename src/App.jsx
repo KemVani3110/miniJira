@@ -1,104 +1,91 @@
-import React from "react";
-import "./styles/App.css";
-import Column from "./components/Column";
-import useLocalStorage from "./hooks/useLocalStorage";
-import { v4 as uuidv4 } from "uuid";
-import { DragDropContext } from "@hello-pangea/dnd";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useMemo } from 'react';
+import './styles/App.css';
+import Column from './components/Column';
+import useLocalStorage from './hooks/useLocalStorage';
+import { v4 as uuidv4 } from 'uuid';
+import { DragDropContext } from '@hello-pangea/dnd';
 
 const App = () => {
-  const [tasks, setTasks] = useLocalStorage("kanban-tasks", {
+  const [tasks, setTasks] = useLocalStorage('kanban-tasks', {
     todo: [],
     inprogress: [],
     done: [],
   });
 
-  const addTask = (columnId, content) => {
+  const addTask = useCallback((columnId, content) => {
     const newTask = { id: uuidv4(), content };
-    setTasks({
-      ...tasks,
-      [columnId]: [...tasks[columnId], newTask],
-    });
-  };
+    setTasks((prev) => ({
+      ...prev,
+      [columnId]: [...prev[columnId], newTask],
+    }));
+  }, [setTasks]);
 
-  const deleteTask = (columnId, taskId) => {
-    const newColumn = tasks[columnId].filter((task) => task.id !== taskId);
-    setTasks({
-      ...tasks,
-      [columnId]: newColumn,
-    });
-  };
+  const deleteTask = useCallback((columnId, taskId) => {
+    setTasks((prev) => ({
+      ...prev,
+      [columnId]: prev[columnId].filter((task) => task.id !== taskId),
+    }));
+  }, [setTasks]);
 
-  const editTask = (columnId, taskId, newContent) => {
-    const updatedTasks = tasks[columnId].map((task) =>
-      task.id === taskId ? { ...task, content: newContent } : task
-    );
-    setTasks({
-      ...tasks,
-      [columnId]: updatedTasks,
-    });
-  };
+  const editTask = useCallback((columnId, taskId, newContent) => {
+    setTasks((prev) => ({
+      ...prev,
+      [columnId]: prev[columnId].map((task) =>
+        task.id === taskId ? { ...task, content: newContent } : task
+      ),
+    }));
+  }, [setTasks]);
 
-  const onDragEnd = (result) => {
+  const onDragEnd = useCallback((result) => {
     const { source, destination } = result;
     if (!destination) return;
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    )
-      return;
 
-    const sourceTasks = Array.from(tasks[source.droppableId]);
-    const [movedTask] = sourceTasks.splice(source.index, 1);
-    const destTasks = Array.from(tasks[destination.droppableId]);
-    destTasks.splice(destination.index, 0, movedTask);
+    const sourceColumn = [...tasks[source.droppableId]];
+    const destColumn = [...tasks[destination.droppableId]];
+    const [movedTask] = sourceColumn.splice(source.index, 1);
 
-    setTasks({
-      ...tasks,
-      [source.droppableId]: sourceTasks,
-      [destination.droppableId]: destTasks,
-    });
-  };
+    if (source.droppableId === destination.droppableId) {
+      // Reorder within the same column
+      sourceColumn.splice(destination.index, 0, movedTask);
+      setTasks((prev) => ({
+        ...prev,
+        [source.droppableId]: sourceColumn,
+      }));
+    } else {
+      // Move to another column
+      destColumn.splice(destination.index, 0, movedTask);
+      setTasks((prev) => ({
+        ...prev,
+        [source.droppableId]: sourceColumn,
+        [destination.droppableId]: destColumn,
+      }));
+    }
+  }, [tasks]);
+
+  const columnList = useMemo(() => [
+    { id: 'todo', title: 'To Do', showAddForm: true },
+    { id: 'inprogress', title: 'In Progress', showAddForm: false },
+    { id: 'done', title: 'Done', showAddForm: false },
+  ], []);
 
   return (
     <div className="app">
       <h1>Kanban Board</h1>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="board">
-          <Column
-            columnId="todo"
-            title="To Do"
-            tasks={tasks.todo}
-            onAddTask={(content) => addTask("todo", content)}
-            onDeleteTask={(taskId) => deleteTask("todo", taskId)}
-            onEditTask={(taskId, newContent) =>
-              editTask("todo", taskId, newContent)
-            }
-            showAddForm={true}
-          />
-
-          <Column
-            columnId="inprogress"
-            title="In Progress"
-            tasks={tasks.inprogress}
-            onAddTask={() => {}}
-            onDeleteTask={(taskId) => deleteTask("inprogress", taskId)}
-            onEditTask={(taskId, newContent) =>
-              editTask("inprogress", taskId, newContent)
-            }
-            showAddForm={false}
-          />
-
-          <Column
-            columnId="done"
-            title="Done"
-            tasks={tasks.done}
-            onAddTask={() => {}}
-            onDeleteTask={(taskId) => deleteTask("done", taskId)}
-            onEditTask={(taskId, newContent) =>
-              editTask("done", taskId, newContent)
-            }
-            showAddForm={false}
-          />
+          {columnList.map(({ id, title, showAddForm }) => (
+            <Column
+              key={id}
+              columnId={id}
+              title={title}
+              tasks={tasks[id]}
+              onAddTask={(content) => addTask(id, content)}
+              onDeleteTask={(taskId) => deleteTask(id, taskId)}
+              onEditTask={(taskId, content) => editTask(id, taskId, content)}
+              showAddForm={showAddForm}
+            />
+          ))}
         </div>
       </DragDropContext>
     </div>

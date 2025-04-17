@@ -1,31 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
 import '../styles/TaskCard.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const TaskCard = ({ task, index, onDelete, onEdit }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(task.content);
+  const [editing, setEditing] = useState(false);
+  const [newContent, setNewContent] = useState(task.content);
+  const inputRef = useRef();
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
-    setEditedContent(task.content);
-  };
-
-  const handleSave = () => {
-    if (editedContent.trim()) {
-      onEdit(task.id, editedContent.trim());
-      setIsEditing(false);
-    }
+  const handleDoubleClick = () => {
+    setEditing(true);
+    setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSave();
-    if (e.key === 'Escape') handleCancel();
+    if (e.key === 'Enter') {
+      onEdit(task.id, newContent);
+      setEditing(false);
+    } else if (e.key === 'Escape') {
+      setEditing(false);
+      setNewContent(task.content);
+    }
   };
 
   return (
@@ -37,17 +32,17 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {isEditing ? (
+          {editing ? (
             <input
               className="task-edit-input"
-              value={editedContent}
-              onChange={(e) => setEditedContent(e.target.value)}
+              value={newContent}
+              ref={inputRef}
+              onChange={(e) => setNewContent(e.target.value)}
               onKeyDown={handleKeyDown}
-              onBlur={handleCancel}
-              autoFocus
+              onBlur={() => setEditing(false)}
             />
           ) : (
-            <div className="task-content" onDoubleClick={handleEdit}>
+            <div className="task-content" onDoubleClick={handleDoubleClick}>
               {task.content}
             </div>
           )}
