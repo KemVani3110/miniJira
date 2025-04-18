@@ -69,8 +69,8 @@ body {
 }
 
 .theme-toggle-container {
-  width: 50px;
-  height: 26px;
+  width: 60px;
+  height: 35px;
   border-radius: 20px;
   background: var(--border-color);
   cursor: pointer;
@@ -82,8 +82,8 @@ body {
 }
 
 .toggle-switch {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: var(--card-bg);
   color: var(--text-color);
@@ -98,5 +98,5 @@ body {
 }
 
 .toggle-switch.dark {
-  transform: translateX(24px);
+  transform: translateX(25px);
 }

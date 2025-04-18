@@ -50,7 +50,7 @@ const AddTaskForm = ({ onAdd }) => {
         type="text"
         placeholder="New task..."
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => setInput(e.target.value)} 
       />
       <div className="date-input-container">
         <input

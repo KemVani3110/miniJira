@@ -10,7 +10,7 @@ body {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 40px;
   margin-bottom: 20px;
   opacity: 0;
   transform: translateY(-20px);
@@ -18,6 +18,7 @@ h1 {
   background: linear-gradient(90deg, #6a5acd, #00bfff, #6a5acd);
   background-size: 200% auto;
   background-position: 0% 50%;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: transform 0.4s ease, background-position 0.5s ease;
@@ -108,6 +109,7 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
+  width: 100%;
 }
 
 .delete-btn {
@@ -210,7 +212,7 @@ h1 {
     align-items: stretch;
     width: 100%;
   }
-  .add-task-form input{
+  .add-task-form input {
     position: relative;
     top: 210px;
   }
@@ -239,5 +241,4 @@ h1 {
     width: 100%;
     box-sizing: border-box;
   }
-
 }
