@@ -63,6 +63,11 @@ body {
   color: var(--placeholder-color);
 }
 
+.priority-option:hover {
+  background-color: #f0f0f0;
+  color: #1a202c;
+}
+
 .theme-toggle-container {
   width: 50px;
   height: 26px;
