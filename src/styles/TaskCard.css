@@ -73,5 +73,45 @@
 }
 
 .priority-icon {
-  font-size: 16px;
+  position: relative;
+  top: 33px;
+  left: 35px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 20px;
+}
+
+.task-date.near {
+  color: #e6a800;
+  font-weight: bold;
+}
+
+.task-date.overdue {
+  color: #d00000;
+  font-weight: bold;
+}
+
+.warning-icon {
+  color: #e6a800;
+  animation: pulse 1.5s infinite;
+}
+
+.overdue-icon {
+  color: #d00000;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

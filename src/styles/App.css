@@ -14,7 +14,7 @@ h1 {
   margin-bottom: 20px;
   opacity: 0;
   transform: translateY(-20px);
-  animation: fadeSlideIn 0.8s ease-out forwards, gradientMove 4s linear infinite;
+  animation: fadeSlideIn 0.5s ease-out forwards, gradientMove 2s linear infinite;
   background: linear-gradient(90deg, #6a5acd, #00bfff, #6a5acd);
   background-size: 200% auto;
   background-position: 0% 50%;
