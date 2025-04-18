@@ -1,24 +1,28 @@
 import React, { useState } from "react";
 import "../styles/AddTaskForm.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useLanguage } from "../context/LanguageContext";
 
 const priorities = [
-  { value: "low", label: "Low", icon: "fa-circle", color: "green" },
+  { value: "low", label_en: "Low", label_vi: "Thấp", icon: "fa-circle", color: "green" },
   {
     value: "medium",
-    label: "Medium",
+    label_en: "Medium",
+    label_vi: "Trung bình",
     icon: "fa-exclamation-circle",
     color: "orange",
   },
   {
     value: "high",
-    label: "High",
+    label_en: "High",
+    label_vi: "Cao",
     icon: "fa-exclamation-triangle",
     color: "red",
   },
 ];
 
 const AddTaskForm = ({ onAdd }) => {
+  const { lang } = useLanguage();
   const [input, setInput] = useState("");
   const [date, setDate] = useState("");
   const [priority, setPriority] = useState("medium");
@@ -29,7 +33,7 @@ const AddTaskForm = ({ onAdd }) => {
     e.preventDefault();
 
     if (!date) {
-      setError("Please select a valid date.");
+      setError(lang === "en" ? "Please select a valid date." : "Vui lòng chọn ngày hợp lệ.");
       return;
     }
 
@@ -48,9 +52,9 @@ const AddTaskForm = ({ onAdd }) => {
     <form className="add-task-form" onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="New task..."
+        placeholder={lang === "en" ? "New task..." : "Công việc mới..."}
         value={input}
-        onChange={(e) => setInput(e.target.value)} 
+        onChange={(e) => setInput(e.target.value)}
       />
       <div className="date-input-container">
         <input
@@ -71,7 +75,9 @@ const AddTaskForm = ({ onAdd }) => {
             className={`fa-solid ${selectedPriority.icon}`}
             style={{ color: selectedPriority.color }}
           ></i>
-          <span>{selectedPriority.label}</span>
+          <span>
+            {lang === "en" ? selectedPriority.label_en : selectedPriority.label_vi}
+          </span>
           <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
         </div>
         {showDropdown && (
@@ -85,11 +91,8 @@ const AddTaskForm = ({ onAdd }) => {
                   setShowDropdown(false);
                 }}
               >
-                <i
-                  className={`fa-solid ${p.icon}`}
-                  style={{ color: p.color }}
-                ></i>
-                <span>{p.label}</span>
+                <i className={`fa-solid ${p.icon}`} style={{ color: p.color }}></i>
+                <span>{lang === "en" ? p.label_en : p.label_vi}</span>
               </div>
             ))}
           </div>

@@ -147,6 +147,11 @@ h1 {
   background-color: #007acc;
 }
 
+.app-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 /* @media (max-width: 1024px) {
   .board {
     flex-direction: column;
@@ -242,3 +247,4 @@ h1 {
     box-sizing: border-box;
   }
 }
+

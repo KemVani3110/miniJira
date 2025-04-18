@@ -6,8 +6,12 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext } from "@hello-pangea/dnd";
 import ThemeToggle from "./components/ThemeToggle";
+import LanguageToggle from "./components/LanguageToggle";
+import { useLanguage } from "./context/LanguageContext";
 
 const App = () => {
+  const { lang } = useLanguage();
+
   const [tasks, setTasks] = useLocalStorage("kanban-tasks", {
     todo: [],
     inprogress: [],
@@ -57,14 +61,12 @@ const App = () => {
       const [movedTask] = sourceColumn.splice(source.index, 1);
 
       if (source.droppableId === destination.droppableId) {
-        // Reorder within the same column
         sourceColumn.splice(destination.index, 0, movedTask);
         setTasks((prev) => ({
           ...prev,
           [source.droppableId]: sourceColumn,
         }));
       } else {
-        // Move to another column
         destColumn.splice(destination.index, 0, movedTask);
         setTasks((prev) => ({
           ...prev,
@@ -78,17 +80,20 @@ const App = () => {
 
   const columnList = useMemo(
     () => [
-      { id: "todo", title: "To Do", showAddForm: true },
-      { id: "inprogress", title: "In Progress", showAddForm: false },
-      { id: "done", title: "Done", showAddForm: false },
+      { id: "todo", title: lang === "en" ? "To Do" : "Cần làm", showAddForm: true },
+      { id: "inprogress", title: lang === "en" ? "In Progress" : "Đang làm", showAddForm: false },
+      { id: "done", title: lang === "en" ? "Done" : "Hoàn thành", showAddForm: false },
     ],
-    []
+    [lang]
   );
 
   return (
     <div className="app">
-      <ThemeToggle />
-      <h1>Kanban Board</h1>
+      <div className="app-header">
+        <ThemeToggle />
+        <LanguageToggle />
+      </div>
+      <h1>{lang === "en" ? "Kanban Board" : "Bảng công việc"}</h1>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="board">
           {columnList.map(({ id, title, showAddForm }) => (

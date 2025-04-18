@@ -47,8 +47,10 @@
 
 .priority-dropdown {
   position: relative;
-  min-width: 150px;
+  width: 100%;
+  max-width: 180px; /* Giới hạn chiều rộng tối đa */
   user-select: none;
+  z-index: 20;
 }
 
 .priority-selected {
@@ -63,6 +65,9 @@
   cursor: pointer;
   gap: 10px;
   transition: all 0.2s ease;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .priority-selected:hover {
@@ -76,15 +81,15 @@
 
 .priority-options {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 4px);
   left: 0;
-  width: 100%;
+  right: 0;
   background-color: var(--input-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  margin-top: 4px;
-  z-index: 10;
+  z-index: 99;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
 }
 
 .priority-option {
@@ -94,12 +99,16 @@
   gap: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-radius: 6px;
+  border-radius: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .priority-option:hover {
   background-color: #f0f0f0;
 }
+
 
 .date-input-container {
   position: relative;
@@ -139,18 +148,3 @@
   visibility: visible;
 }
 
-/* Responsive cho các màn hình nhỏ */
-/* @media (max-width: 768px) {
-  .add-task-form {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .add-task-form button {
-    width: 100%;
-  }
-
-  .priority-dropdown {
-    width: 100%;
-  }
-} */

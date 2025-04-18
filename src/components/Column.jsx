@@ -2,6 +2,7 @@ import React from "react";
 import TaskCard from "./TaskCard";
 import AddTaskForm from "./AddTaskForm";
 import { Droppable } from "@hello-pangea/dnd";
+import { useLanguage } from "../context/LanguageContext";
 import "../styles/Column.css";
 
 const Column = ({
@@ -13,11 +14,16 @@ const Column = ({
   columnId,
   showAddForm,
 }) => {
+  const { lang } = useLanguage();
+
   return (
     <div className="column">
       <h2>
         <i className="fa-solid fa-list-check" style={{ marginRight: 6 }}></i>
-        {title} <span className="task-count">({tasks.length} task)</span>
+        {title}{" "}
+        <span className="task-count">
+          ({tasks.length} {lang === "en" ? "task" : "công việc"})
+        </span>
       </h2>
 
       <Droppable droppableId={columnId}>
