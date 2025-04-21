@@ -109,7 +109,6 @@
   background-color: #f0f0f0;
 }
 
-
 .date-input-container {
   position: relative;
   flex: 1 1 250px;
@@ -147,4 +146,3 @@
   transform: translateY(0);
   visibility: visible;
 }
-

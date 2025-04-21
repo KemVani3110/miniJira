@@ -48,7 +48,10 @@ const Column = ({
           </form>
         ) : (
           <h2 onDoubleClick={() => setEditing(true)}>
-            <i className="fa-solid fa-list-check" style={{ marginRight: 6 }}></i>
+            <i
+              className="fa-solid fa-list-check"
+              style={{ marginRight: 6 }}
+            ></i>
             {title}{" "}
             <span className="task-count">
               ({tasks.length} {lang === "en" ? "task" : "công việc"})

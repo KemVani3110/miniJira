@@ -4,5 +4,6 @@
   box-sizing: border-box;
   background: #f0f2f5;
   overflow-y: hidden; 
+  overflow-x: hidden;
 }
 

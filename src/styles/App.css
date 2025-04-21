@@ -24,7 +24,10 @@ h1 {
     #3cb371,
     #48d1cc,
     #1e90ff,
-    #6a5acd
+    #6a5acd,
+    #7b68ee,
+    #9370db,
+    #8a2be2
   );
   background-size: 300% auto;
   background-position: 0% 50%;
@@ -59,7 +62,7 @@ h1 {
   }
 }
 
-.top-bar{
+.top-bar {
   margin-left: 15px;
 }
 /* ======= BOARD LAYOUT ======= */
@@ -254,34 +257,35 @@ h1 {
 /* ======= RESPONSIVE ======= */
 @media (max-width: 768px) {
   h1 {
-    font-size: 24px;
-    margin-bottom: 16px;
+    font-size: 26px;
+    position: absolute;
+    top: 5px;
+  }
+
+  .app {
+    padding: 10px;
   }
 
   .board {
-    gap: 16px;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    gap: 20px;
     padding: 10px 0;
   }
 
   .column {
-    flex: 0 0 85%;
-    min-width: 260px;
-    max-width: 90vw;
-    margin-bottom: 20px;
+    width: 100%;
+    max-width: 100%;
+    min-width: auto;
+    scroll-snap-align: none;
+    margin-bottom: 10px;
   }
 
-  .task-card {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .task-content {
-    font-size: 14px;
-  }
-
+  .task-card,
+  .task-content,
   .task-edit-input {
-    font-size: 13px;
-    padding: 5px;
+    font-size: 14px;
   }
 
   .add-task-form {
@@ -291,7 +295,9 @@ h1 {
 
   .add-task-form input,
   .add-task-form button,
-  .priority-dropdown {
+  .priority-dropdown,
+  .priority-selected,
+  .priority-options {
     width: 100%;
     font-size: 14px;
     padding: 10px;
@@ -299,18 +305,7 @@ h1 {
   }
 
   .add-task-form input[type="date"] {
-    padding: 10px;
     margin: 0;
-  }
-
-  .priority-selected,
-  .priority-options {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .add-column-btn {
-    width: 100%;
-    margin-top: 10px;
+    padding: 20px;
   }
 }

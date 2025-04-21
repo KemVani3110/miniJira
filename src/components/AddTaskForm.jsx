@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/AddTaskForm.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useLanguage } from "../context/LanguageContext";
 
 const priorities = [
-  { value: "low", label_en: "Low", label_vi: "Thấp", icon: "fa-circle", color: "green" },
+  {
+    value: "low",
+    label_en: "Low",
+    label_vi: "Thấp",
+    icon: "fa-circle",
+    color: "green",
+  },
   {
     value: "medium",
     label_en: "Medium",
@@ -29,11 +35,27 @@ const AddTaskForm = ({ onAdd }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [error, setError] = useState("");
 
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) {
+        setError("");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!date) {
-      setError(lang === "en" ? "Please select a valid date." : "Vui lòng chọn ngày hợp lệ.");
+      setError(
+        lang === "en"
+          ? "Please select a valid date."
+          : "Vui lòng chọn ngày hợp lệ."
+      );
       return;
     }
 
@@ -49,7 +71,7 @@ const AddTaskForm = ({ onAdd }) => {
   const selectedPriority = priorities.find((p) => p.value === priority);
 
   return (
-    <form className="add-task-form" onSubmit={handleSubmit}>
+    <form className="add-task-form" onSubmit={handleSubmit} ref={formRef}>
       <input
         type="text"
         placeholder={lang === "en" ? "New task..." : "Công việc mới..."}
@@ -76,7 +98,9 @@ const AddTaskForm = ({ onAdd }) => {
             style={{ color: selectedPriority.color }}
           ></i>
           <span>
-            {lang === "en" ? selectedPriority.label_en : selectedPriority.label_vi}
+            {lang === "en"
+              ? selectedPriority.label_en
+              : selectedPriority.label_vi}
           </span>
           <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
         </div>
@@ -91,7 +115,10 @@ const AddTaskForm = ({ onAdd }) => {
                   setShowDropdown(false);
                 }}
               >
-                <i className={`fa-solid ${p.icon}`} style={{ color: p.color }}></i>
+                <i
+                  className={`fa-solid ${p.icon}`}
+                  style={{ color: p.color }}
+                ></i>
                 <span>{lang === "en" ? p.label_en : p.label_vi}</span>
               </div>
             ))}

@@ -1,18 +1,17 @@
 .language-toggle-btn {
-    background: transparent;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1px 30px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #333;
-    transition: background-color 0.2s ease;
-  }
-  
-  .language-toggle-btn:hover {
-    background-color: #f0f0f0;
-  }
-  
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1px 30px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.language-toggle-btn:hover {
+  background-color: #f0f0f0;
+}

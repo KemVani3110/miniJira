@@ -132,7 +132,7 @@ const App = () => {
         {/* <LanguageToggle /> */}
         <h1>Kanban Board</h1>
       </div>
-   
+
       <div className="btn-holder">
         <button className="add-column-btn" onClick={addColumn}>
           <i className="fa-solid fa-plus"></i>{" "}

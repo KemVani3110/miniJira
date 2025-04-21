@@ -6,9 +6,12 @@ import "../styles/LanguageToggle.css";
 const LanguageToggle = () => {
   const { lang, toggleLanguage } = useLanguage();
 
+  const nextLang = lang === "en" ? "vi" : "en";
+  const buttonLabel = nextLang.toUpperCase(); 
+
   return (
     <button className="language-toggle-btn" onClick={toggleLanguage}>
-      <FontAwesomeIcon icon={faGlobe} /> {lang === "en" ? "VI" : "EN"}
+      <FontAwesomeIcon icon={faGlobe} /> {buttonLabel}
     </button>
   );
 };
