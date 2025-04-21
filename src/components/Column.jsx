@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TaskCard from "./TaskCard";
 import AddTaskForm from "./AddTaskForm";
 import { Droppable } from "@hello-pangea/dnd";
@@ -13,18 +13,52 @@ const Column = ({
   onEditTask,
   columnId,
   showAddForm,
+  onEditColumnTitle,
+  onDeleteColumn,
 }) => {
   const { lang } = useLanguage();
+  const [editing, setEditing] = useState(false);
+  const [input, setInput] = useState(title);
+
+  const handleTitleSubmit = (e) => {
+    e.preventDefault();
+    if (input.trim()) {
+      onEditColumnTitle(input);
+    }
+    setEditing(false);
+  };
 
   return (
     <div className="column">
-      <h2>
-        <i className="fa-solid fa-list-check" style={{ marginRight: 6 }}></i>
-        {title}{" "}
-        <span className="task-count">
-          ({tasks.length} {lang === "en" ? "task" : "công việc"})
-        </span>
-      </h2>
+      <div className="column-header">
+        {editing ? (
+          <form onSubmit={handleTitleSubmit} className="column-title-form">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              autoFocus
+              onBlur={handleTitleSubmit}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  setInput(title); // reset input nếu hủy
+                  setEditing(false);
+                }
+              }}
+            />
+          </form>
+        ) : (
+          <h2 onDoubleClick={() => setEditing(true)}>
+            <i className="fa-solid fa-list-check" style={{ marginRight: 6 }}></i>
+            {title}{" "}
+            <span className="task-count">
+              ({tasks.length} {lang === "en" ? "task" : "công việc"})
+            </span>
+          </h2>
+        )}
+        <button className="delete-column-btn" onClick={onDeleteColumn}>
+          <i className="fa-solid fa-trash"></i>
+        </button>
+      </div>
 
       <Droppable droppableId={columnId}>
         {(provided) => (

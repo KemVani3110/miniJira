@@ -1,22 +1,60 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useMemo } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useCallback, useMemo, useState } from "react";
 import "./styles/App.css";
 import Column from "./components/Column";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext } from "@hello-pangea/dnd";
 import ThemeToggle from "./components/ThemeToggle";
-import LanguageToggle from "./components/LanguageToggle";
+//import LanguageToggle from "./components/LanguageToggle";
 import { useLanguage } from "./context/LanguageContext";
 
 const App = () => {
   const { lang } = useLanguage();
+
+  const [columns, setColumns] = useLocalStorage("kanban-columns", [
+    {
+      id: "todo",
+      title: lang === "en" ? "To Do" : "Cần làm",
+      showAddForm: true,
+    },
+    {
+      id: "inprogress",
+      title: lang === "en" ? "In Progress" : "Đang làm",
+      showAddForm: false,
+    },
+    {
+      id: "done",
+      title: lang === "en" ? "Done" : "Hoàn thành",
+      showAddForm: false,
+    },
+  ]);
 
   const [tasks, setTasks] = useLocalStorage("kanban-tasks", {
     todo: [],
     inprogress: [],
     done: [],
   });
+
+  const addColumn = () => {
+    const newId = uuidv4();
+    const newColumn = {
+      id: newId,
+      title: lang === "en" ? "New Column" : "Cột mới",
+      showAddForm: false,
+    };
+    setColumns((prev) => [...prev, newColumn]);
+    setTasks((prev) => ({ ...prev, [newId]: [] }));
+  };
+
+  const editColumnTitle = useCallback((columnId, newTitle) => {
+    setColumns((prev) =>
+      prev.map((col) =>
+        col.id === columnId ? { ...col, title: newTitle } : col
+      )
+    );
+  }, []);
 
   const addTask = useCallback(
     (columnId, content, date = "", priority = "Medium") => {
@@ -51,6 +89,15 @@ const App = () => {
     [setTasks]
   );
 
+  const deleteColumn = useCallback((columnId) => {
+    setColumns((prev) => prev.filter((col) => col.id !== columnId));
+    setTasks((prev) => {
+      const updated = { ...prev };
+      delete updated[columnId];
+      return updated;
+    });
+  }, []);
+
   const onDragEnd = useCallback(
     (result) => {
       const { source, destination } = result;
@@ -78,35 +125,36 @@ const App = () => {
     [tasks]
   );
 
-  const columnList = useMemo(
-    () => [
-      { id: "todo", title: lang === "en" ? "To Do" : "Cần làm", showAddForm: true },
-      { id: "inprogress", title: lang === "en" ? "In Progress" : "Đang làm", showAddForm: false },
-      { id: "done", title: lang === "en" ? "Done" : "Hoàn thành", showAddForm: false },
-    ],
-    [lang]
-  );
-
   return (
     <div className="app">
-      <div className="app-header">
+      <div className="top-bar">
         <ThemeToggle />
-        <LanguageToggle />
+        {/* <LanguageToggle /> */}
+        <h1>Kanban Board</h1>
       </div>
-      <h1>{lang === "en" ? "Kanban Board" : "Bảng công việc"}</h1>
+   
+      <div className="btn-holder">
+        <button className="add-column-btn" onClick={addColumn}>
+          <i className="fa-solid fa-plus"></i>{" "}
+          {lang === "en" ? "Add Column" : "Thêm cột"}
+        </button>
+      </div>
+
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="board">
-          {columnList.map(({ id, title, showAddForm }) => (
+          {columns.map(({ id, title, showAddForm }) => (
             <Column
               key={id}
               columnId={id}
               title={title}
-              tasks={tasks[id]}
+              tasks={tasks[id] || []}
               onAddTask={(content, date, priority) =>
                 addTask(id, content, date, priority)
               }
               onDeleteTask={(taskId) => deleteTask(id, taskId)}
               onEditTask={(taskId, content) => editTask(id, taskId, content)}
+              onEditColumnTitle={(newTitle) => editColumnTitle(id, newTitle)}
+              onDeleteColumn={() => deleteColumn(id)}
               showAddForm={showAddForm}
             />
           ))}
