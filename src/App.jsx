@@ -1,41 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useEffect } from "react";
 import "./styles/App.css";
 import Column from "./components/Column";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { v4 as uuidv4 } from "uuid";
-import { DragDropContext } from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ThemeToggle from "./components/ThemeToggle";
-//import LanguageToggle from "./components/LanguageToggle";
 import { useLanguage } from "./context/LanguageContext";
 
 const App = () => {
   const { lang } = useLanguage();
 
-  const [columns, setColumns] = useLocalStorage("kanban-columns", [
-    {
-      id: "todo",
-      title: lang === "en" ? "To Do" : "Cần làm",
-      showAddForm: true,
-    },
-    {
-      id: "inprogress",
-      title: lang === "en" ? "In Progress" : "Đang làm",
-      showAddForm: false,
-    },
-    {
-      id: "done",
-      title: lang === "en" ? "Done" : "Hoàn thành",
-      showAddForm: false,
-    },
-  ]);
+  const initialColumns = useMemo(
+    () => [
+      {
+        id: uuidv4(),
+        title: lang === "en" ? "To Do" : "Cần làm",
+        showAddForm: true,
+      },
+      {
+        id: uuidv4(),
+        title: lang === "en" ? "In Progress" : "Đang làm",
+        showAddForm: false,
+      },
+      {
+        id: uuidv4(),
+        title: lang === "en" ? "Done" : "Hoàn thành",
+        showAddForm: false,
+      },
+    ],
+    []
+  );
 
-  const [tasks, setTasks] = useLocalStorage("kanban-tasks", {
-    todo: [],
-    inprogress: [],
-    done: [],
-  });
+  const [columns, setColumns] = useLocalStorage(
+    "kanban-columns",
+    initialColumns
+  );
+  const [tasks, setTasks] = useLocalStorage("kanban-tasks", {});
+
+  useEffect(() => {
+    setTasks((prev) => {
+      const updated = { ...prev };
+      columns.forEach((col) => {
+        if (!updated[col.id]) {
+          updated[col.id] = [];
+        }
+      });
+      return updated;
+    });
+  }, [columns]);
 
   const addColumn = () => {
     const newId = uuidv4();
@@ -61,7 +74,7 @@ const App = () => {
       const newTask = { id: uuidv4(), content, date, priority };
       setTasks((prev) => ({
         ...prev,
-        [columnId]: [...prev[columnId], newTask],
+        [columnId]: [...(prev[columnId] || []), newTask],
       }));
     },
     [setTasks]
@@ -100,9 +113,19 @@ const App = () => {
 
   const onDragEnd = useCallback(
     (result) => {
-      const { source, destination } = result;
+      const { source, destination, type } = result;
       if (!destination) return;
 
+      //Kéo thả cột
+      if (type === "column") {
+        const newColumns = Array.from(columns);
+        const [moved] = newColumns.splice(source.index, 1);
+        newColumns.splice(destination.index, 0, moved);
+        setColumns(newColumns);
+        return;
+      }
+
+      //Kéo thả task trong cột
       const sourceColumn = [...tasks[source.droppableId]];
       const destColumn = [...tasks[destination.droppableId]];
       const [movedTask] = sourceColumn.splice(source.index, 1);
@@ -122,7 +145,7 @@ const App = () => {
         }));
       }
     },
-    [tasks]
+    [columns, tasks]
   );
 
   return (
@@ -141,24 +164,43 @@ const App = () => {
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="board">
-          {columns.map(({ id, title, showAddForm }) => (
-            <Column
-              key={id}
-              columnId={id}
-              title={title}
-              tasks={tasks[id] || []}
-              onAddTask={(content, date, priority) =>
-                addTask(id, content, date, priority)
-              }
-              onDeleteTask={(taskId) => deleteTask(id, taskId)}
-              onEditTask={(taskId, content) => editTask(id, taskId, content)}
-              onEditColumnTitle={(newTitle) => editColumnTitle(id, newTitle)}
-              onDeleteColumn={() => deleteColumn(id)}
-              showAddForm={showAddForm}
-            />
-          ))}
-        </div>
+        <Droppable droppableId="board" direction="horizontal" type="column">
+          {(provided) => (
+            <div
+              className="board"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {columns.map(({ id, title, showAddForm }, index) => (
+                <Draggable key={id} draggableId={id} index={index}>
+                  {(provided) => (
+                    <Column
+                      columnId={id}
+                      title={title}
+                      tasks={tasks[id] || []}
+                      onAddTask={(content, date, priority) =>
+                        addTask(id, content, date, priority)
+                      }
+                      onDeleteTask={(taskId) => deleteTask(id, taskId)}
+                      onEditTask={(taskId, content) =>
+                        editTask(id, taskId, content)
+                      }
+                      onEditColumnTitle={(newTitle) =>
+                        editColumnTitle(id, newTitle)
+                      }
+                      onDeleteColumn={() => deleteColumn(id)}
+                      showAddForm={showAddForm}
+                      dragHandleProps={provided.dragHandleProps}
+                      draggableProps={provided.draggableProps}
+                      innerRef={provided.innerRef}
+                    />
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </DragDropContext>
     </div>
   );

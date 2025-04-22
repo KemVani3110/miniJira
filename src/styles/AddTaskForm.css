@@ -35,9 +35,10 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
+  width: 100%;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 6px;
-  min-width: 120px;
+  min-width: 100px;
+  max-width: 470px;
 }
 
 .add-task-form button:hover {
@@ -48,7 +49,7 @@
 .priority-dropdown {
   position: relative;
   width: 100%;
-  max-width: 180px; /* Giới hạn chiều rộng tối đa */
+  max-width: 335px;
   user-select: none;
   z-index: 20;
 }

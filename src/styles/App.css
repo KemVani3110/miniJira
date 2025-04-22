@@ -65,13 +65,13 @@ h1 {
 .top-bar {
   margin-left: 15px;
 }
+
 /* ======= BOARD LAYOUT ======= */
 .board {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: nowrap;
-  overflow-x: auto;
   gap: 20px;
   padding: 10px 10px 20px;
   scroll-snap-type: x mandatory;
@@ -80,10 +80,7 @@ h1 {
 
 /* ======= COLUMN STYLING ======= */
 .column {
-  background: #fff;
-  padding: 15px;
-  width: 300px;
-  min-height: 400px;
+  /* min-height: 400px; */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   display: flex;
@@ -170,33 +167,6 @@ h1 {
   cursor: pointer;
   margin-left: 8px;
   transition: all 0.2s ease;
-}
-
-/* ======= ADD TASK FORM ======= */
-.add-task-form {
-  display: flex;
-  margin-top: 10px;
-  gap: 5px;
-  flex-wrap: wrap;
-}
-
-.add-task-form input {
-  flex: 1;
-  padding: 6px;
-}
-
-.add-task-form button {
-  padding: 6px 10px;
-  background-color: #00bfff;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.add-task-form button:hover {
-  background-color: #007acc;
 }
 
 /* ======= COLUMN TITLE EDIT FORM ======= */
@@ -293,6 +263,31 @@ h1 {
     gap: 10px;
   }
 
+  .add-task-form input[type="text"] {
+    max-height: 50px;
+    padding: 20px;
+    width: 316px;
+  }
+
+  .add-task-form input[type="date"] {
+    margin: 0;
+    padding: 20px;
+    margin-right: 50px;
+    max-height: 50px;
+    max-width: 315px;
+  }
+
+  .add-task-form input {
+    position: relative;
+    top: 205px;
+  }
+
+  .add-task-form .priority-dropdown {
+    right: 10px;
+    max-height: 50px;
+    width: 335px;
+  }
+
   .add-task-form input,
   .add-task-form button,
   .priority-dropdown,
@@ -302,10 +297,5 @@ h1 {
     font-size: 14px;
     padding: 10px;
     box-sizing: border-box;
-  }
-
-  .add-task-form input[type="date"] {
-    margin: 0;
-    padding: 20px;
   }
 }

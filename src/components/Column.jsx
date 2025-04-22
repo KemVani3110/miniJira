@@ -15,6 +15,9 @@ const Column = ({
   showAddForm,
   onEditColumnTitle,
   onDeleteColumn,
+  dragHandleProps,
+  draggableProps,
+  innerRef,
 }) => {
   const { lang } = useLanguage();
   const [editing, setEditing] = useState(false);
@@ -29,8 +32,8 @@ const Column = ({
   };
 
   return (
-    <div className="column">
-      <div className="column-header">
+    <div className="column" ref={innerRef} {...draggableProps}>
+      <div className="column-header" {...dragHandleProps}>
         {editing ? (
           <form onSubmit={handleTitleSubmit} className="column-title-form">
             <input
@@ -40,7 +43,7 @@ const Column = ({
               onBlur={handleTitleSubmit}
               onKeyDown={(e) => {
                 if (e.key === "Escape") {
-                  setInput(title); // reset input nếu hủy
+                  setInput(title);
                   setEditing(false);
                 }
               }}
@@ -64,9 +67,11 @@ const Column = ({
       </div>
 
       <Droppable droppableId={columnId}>
-        {(provided) => (
+        {(provided, snapshot) => (
           <div
-            className="task-list"
+            className={`task-list ${
+              snapshot.isDraggingOver ? "dragging-over" : ""
+            }`}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
