@@ -35,12 +35,13 @@ const AddTaskForm = ({ onAdd }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [error, setError] = useState("");
 
-  const formRef = useRef(null);
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (formRef.current && !formRef.current.contains(e.target)) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
         setError("");
+        setShowDropdown(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -71,65 +72,69 @@ const AddTaskForm = ({ onAdd }) => {
   const selectedPriority = priorities.find((p) => p.value === priority);
 
   return (
-    <form className="add-task-form" onSubmit={handleSubmit} ref={formRef}>
-      <input
-        type="text"
-        placeholder={lang === "en" ? "New task..." : "Công việc mới..."}
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <div className="date-input-container">
+    <div ref={wrapperRef}>
+      <form className="add-task-form" onSubmit={handleSubmit}>
         <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className={`date-input ${error ? "error" : ""}`}
+          type="text"
+          placeholder={lang === "en" ? "New task..." : "Công việc mới..."}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
-        {error && <div className="error-popup">{error}</div>}
-      </div>
 
-      <div className="priority-dropdown">
-        <div
-          className="priority-selected"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          <i
-            className={`fa-solid ${selectedPriority.icon}`}
-            style={{ color: selectedPriority.color }}
-          ></i>
-          <span>
-            {lang === "en"
-              ? selectedPriority.label_en
-              : selectedPriority.label_vi}
-          </span>
-          <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
+        <div className="date-input-container">
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className={`date-input ${error ? "error" : ""}`}
+          />
+          {error && <div className="error-popup">{error}</div>}
         </div>
-        {showDropdown && (
-          <div className="priority-options">
-            {priorities.map((p) => (
-              <div
-                key={p.value}
-                className="priority-option"
-                onClick={() => {
-                  setPriority(p.value);
-                  setShowDropdown(false);
-                }}
-              >
-                <i
-                  className={`fa-solid ${p.icon}`}
-                  style={{ color: p.color }}
-                ></i>
-                <span>{lang === "en" ? p.label_en : p.label_vi}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
 
-      <button type="submit">
-        <i className="fa-solid fa-plus"></i>
-      </button>
-    </form>
+        <div className="priority-dropdown">
+          <div
+            className="priority-selected"
+            onClick={() => setShowDropdown(!showDropdown)}
+          >
+            <i
+              className={`fa-solid ${selectedPriority.icon}`}
+              style={{ color: selectedPriority.color }}
+            ></i>
+            <span>
+              {lang === "en"
+                ? selectedPriority.label_en
+                : selectedPriority.label_vi}
+            </span>
+            <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </div>
+
+          {showDropdown && (
+            <div className="priority-options">
+              {priorities.map((p) => (
+                <div
+                  key={p.value}
+                  className="priority-option"
+                  onClick={() => {
+                    setPriority(p.value);
+                    setShowDropdown(false);
+                  }}
+                >
+                  <i
+                    className={`fa-solid ${p.icon}`}
+                    style={{ color: p.color }}
+                  ></i>
+                  <span>{lang === "en" ? p.label_en : p.label_vi}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <button type="submit">
+          <i className="fa-solid fa-plus"></i>
+        </button>
+      </form>
+    </div>
   );
 };
 
