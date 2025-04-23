@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useMemo, useEffect } from "react";
+import React, { useCallback, useMemo, useEffect, useState } from "react";
 import "./styles/App.css";
 import Column from "./components/Column";
+import GuideModal from "./components/GuideModal";
 import useLocalStorage from "./hooks/useLocalStorage";
+// import LanguageToggle from './components/LanguageToggle'
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import ThemeToggle from "./components/ThemeToggle";
@@ -10,6 +12,7 @@ import { useLanguage } from "./context/LanguageContext";
 
 const App = () => {
   const { lang } = useLanguage();
+  const [showGuide, setShowGuide] = useState(false);
 
   const initialColumns = useMemo(
     () => [
@@ -70,13 +73,12 @@ const App = () => {
   }, []);
 
   const addTask = useCallback(
-    (columnId, content, startDate = "", endDate = "", priority = "Medium") => {
+    (columnId, content, startDate = "", endDate = "") => {
       const newTask = {
         id: uuidv4(),
         content,
         startDate,
         endDate,
-        priority,
       };
       setTasks((prev) => ({
         ...prev,
@@ -161,7 +163,13 @@ const App = () => {
         {/* <LanguageToggle /> */}
         <h1>Kanban Board</h1>
       </div>
-
+      <div className="fixed-guild-btn">
+        <button className="guide-btn" onClick={() => setShowGuide(true)}>
+          <i className="fa-solid fa-question-circle"></i>{" "}
+          {lang === "en" ? "Help" : "Hướng dẫn"}
+        </button>
+        {showGuide && <GuideModal onClose={() => setShowGuide(false)} />}
+      </div>
       <div className="btn-holder">
         <button className="add-column-btn" onClick={addColumn}>
           <i className="fa-solid fa-plus"></i>{" "}
@@ -184,8 +192,8 @@ const App = () => {
                       columnId={id}
                       title={title}
                       tasks={tasks[id] || []}
-                      onAddTask={(content, startDate, endDate, priority) =>
-                        addTask(id, content, startDate, endDate, priority)
+                      onAddTask={(content, startDate, endDate) =>
+                        addTask(id, content, startDate, endDate)
                       }
                       onDeleteTask={(taskId) => deleteTask(id, taskId)}
                       onEditTask={(taskId, content) =>

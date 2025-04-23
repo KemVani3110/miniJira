@@ -1,0 +1,110 @@
+.guide-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.guide-modal {
+  background-color: var(--bg-color, #fff);
+  color: var(--text-color, #333);
+  padding: 24px 20px;
+  border-radius: 16px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  animation: fadeInUp 0.4s ease forwards;
+  position: relative;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.guide-modal h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 22px;
+  text-align: center;
+  color: #1e90ff;
+}
+
+.guide-modal ul {
+  padding-left: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  list-style: none;
+}
+
+.guide-modal li::before {
+  content: "✔";
+  margin-right: 8px;
+  color: #20b2aa;
+  font-weight: bold;
+}
+
+.guide-modal li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 15px;
+  color: #444;
+}
+
+.close-guide-btn {
+  display: block;
+  margin: 0 auto;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.close-guide-btn:hover {
+  background-color: #187bcd;
+  transform: scale(1.03);
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .guide-modal {
+    padding: 16px;
+    font-size: 14px;
+    width: 70%;
+    margin-right: 35px;
+  }
+
+  .guide-modal h2 {
+    font-size: 18px;
+  }
+
+  .guide-modal li {
+    font-size: 13.5px;
+    margin-right: 10px;
+  }
+
+  .close-guide-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

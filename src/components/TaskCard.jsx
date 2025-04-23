@@ -23,37 +23,6 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
     }
   };
 
-  // const renderPriorityIcon = (priority) => {
-  //   switch (priority) {
-  //     case "low":
-  //       return (
-  //         <span className="priority-icon" title="Low">
-  //           <i className="fa-solid fa-circle" style={{ color: "green" }}></i>
-  //         </span>
-  //       );
-  //     case "medium":
-  //       return (
-  //         <span className="priority-icon" title="Medium">
-  //           <i
-  //             className="fa-solid fa-exclamation-circle"
-  //             style={{ color: "orange" }}
-  //           ></i>
-  //         </span>
-  //       );
-  //     case "high":
-  //       return (
-  //         <span className="priority-icon" title="High">
-  //           <i
-  //             className="fa-solid fa-exclamation-triangle"
-  //             style={{ color: "red" }}
-  //           ></i>
-  //         </span>
-  //       );
-  //     default:
-  //       return null;
-  //   }
-  // };
-
   const getDeadlineStatus = (endDateStr) => {
     if (!endDateStr) return null;
 
@@ -94,32 +63,16 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
             ) : (
               <>
                 <div className="task-main">
-                  <span>{task.content}</span>
-                  {/* {task.priority && renderPriorityIcon(task.priority)} */}
+                  <span className="task-title" title={task.content}>
+                    {task.content}
+                  </span>
                 </div>
 
                 {task.startDate && task.endDate && (
                   <div className={`task-date ${deadlineStatus}`}>
-                    <i
-                      className="fa-solid fa-calendar-days"
-                      style={{ marginRight: 4 }}
-                    ></i>
+                    <i className="fa-solid fa-calendar-days"></i>
                     {new Date(task.startDate).toLocaleDateString()} &rarr;{" "}
                     {new Date(task.endDate).toLocaleDateString()}
-                    {deadlineStatus === "near" && (
-                      <i
-                        className="fa-solid fa-triangle-exclamation warning-icon"
-                        title="Sắp đến hạn"
-                        style={{ marginLeft: 6 }}
-                      ></i>
-                    )}
-                    {deadlineStatus === "overdue" && (
-                      <i
-                        className="fa-solid fa-circle-exclamation overdue-icon"
-                        title="Đã quá hạn"
-                        style={{ marginLeft: 6 }}
-                      ></i>
-                    )}
                   </div>
                 )}
               </>

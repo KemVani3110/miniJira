@@ -63,11 +63,6 @@ body {
   color: var(--placeholder-color);
 }
 
-.priority-option:hover {
-  background-color: #f0f0f0;
-  color: #1a202c;
-}
-
 .theme-toggle-container {
   width: 60px;
   height: 35px;
@@ -93,8 +88,24 @@ body {
   transition: transform 0.3s;
 }
 
-.add-task-popup.show{
-  background-color: var( --bg-color) ;
+.add-task-popup.show {
+  background-color: var(--bg-color);
+}
+
+.confirm-popup {
+  background-color: var(--bg-color);
+}
+
+.confirm-popup p {
+  color: var(--text-color);
+}
+
+.guide-modal {
+  background-color: var(--bg-color);
+}
+
+.guide-modal li {
+  color: var(--text-color);
 }
 
 .toggle-switch.light {

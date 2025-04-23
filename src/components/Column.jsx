@@ -22,7 +22,10 @@ const Column = ({
   const [editing, setEditing] = useState(false);
   const [input, setInput] = useState(title);
   const [showForm, setShowForm] = useState(false);
-  const [fadeClass, setFadeClass] = useState(""); // dùng cho hiệu ứng
+  const [fadeClass, setFadeClass] = useState("");
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
 
   const handleTitleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +35,7 @@ const Column = ({
     setEditing(false);
   };
 
-  // Hiệu ứng fade và ESC
+  // Hiệu ứng popup add task
   useEffect(() => {
     if (showForm) {
       setFadeClass("show");
@@ -50,7 +53,25 @@ const Column = ({
 
   const handleCloseForm = () => {
     setFadeClass("hide");
-    setTimeout(() => setShowForm(false), 200); // delay để animation chạy xong
+    setTimeout(() => setShowForm(false), 200);
+  };
+
+  const handleDeleteColumn = () => {
+    setShowDeleteConfirm(false);
+    setTimeout(() => {
+      setConfirmVisible(false);
+      onDeleteColumn(); // Xoá cột
+    }, 300);
+  };
+
+  const openDeleteConfirm = () => {
+    setConfirmVisible(true);
+    setTimeout(() => setShowDeleteConfirm(true), 10);
+  };
+
+  const closeDeleteConfirm = () => {
+    setShowDeleteConfirm(false);
+    setTimeout(() => setConfirmVisible(false), 300);
   };
 
   return (
@@ -73,14 +94,17 @@ const Column = ({
           </form>
         ) : (
           <h2 onDoubleClick={() => setEditing(true)}>
-            <i className="fa-solid fa-list-check" style={{ marginRight: 6 }}></i>
+            <i
+              className="fa-solid fa-list-check"
+              style={{ marginRight: 6 }}
+            ></i>
             {title}
             <span className="task-count">
               ({tasks.length} {lang === "en" ? "task" : "công việc"})
             </span>
           </h2>
         )}
-        <button className="delete-column-btn" onClick={onDeleteColumn}>
+        <button className="delete-column-btn" onClick={openDeleteConfirm}>
           <i className="fa-solid fa-trash"></i>
         </button>
       </div>
@@ -88,7 +112,9 @@ const Column = ({
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
           <div
-            className={`task-list ${snapshot.isDraggingOver ? "dragging-over" : ""}`}
+            className={`task-list ${
+              snapshot.isDraggingOver ? "dragging-over" : ""
+            }`}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
@@ -106,19 +132,48 @@ const Column = ({
         )}
       </Droppable>
 
+      {confirmVisible && (
+        <div
+          className={`confirm-popup-overlay ${showDeleteConfirm ? "show" : ""}`}
+        >
+          <div className="confirm-popup">
+            <p>
+              {lang === "en"
+                ? "Are you sure you want to delete this column?"
+                : "Bạn có chắc muốn xoá cột này không?"}
+            </p>
+            <div className="confirm-buttons">
+              <button className="confirm-btn yes" onClick={handleDeleteColumn}>
+                {lang === "en" ? "Yes" : "Có"}
+              </button>
+              <button className="confirm-btn no" onClick={closeDeleteConfirm}>
+                {lang === "en" ? "No" : "Không"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="add-task-popup-wrapper">
-        <button className="toggle-add-task-btn" onClick={() => setShowForm(!showForm)}>
+        <button
+          className="toggle-add-task-btn"
+          onClick={() => setShowForm(!showForm)}
+        >
           <i className={`fa-solid ${showForm ? "fa-times" : "fa-plus"}`}></i>{" "}
           {showForm
-            ? lang === "en" ? "Close" : "Đóng"
-            : lang === "en" ? "Add Task" : "Thêm công việc"}
+            ? lang === "en"
+              ? "Close"
+              : "Đóng"
+            : lang === "en"
+            ? "Add Task"
+            : "Thêm công việc"}
         </button>
 
         {showForm && (
           <div className={`add-task-popup ${fadeClass}`}>
             <AddTaskForm
-              onAdd={(content, date, priority) => {
-                onAddTask(content, date, priority);
+              onAdd={(content, startDate, endDate) => {
+                onAddTask(content, startDate, endDate);
                 handleCloseForm();
               }}
             />

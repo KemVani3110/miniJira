@@ -7,7 +7,7 @@ const LanguageToggle = () => {
   const { lang, toggleLanguage } = useLanguage();
 
   const nextLang = lang === "en" ? "vi" : "en";
-  const buttonLabel = nextLang.toUpperCase(); 
+  const buttonLabel = nextLang.toUpperCase();
 
   return (
     <button className="language-toggle-btn" onClick={toggleLanguage}>
