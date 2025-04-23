@@ -23,60 +23,54 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
     }
   };
 
-  const renderPriorityIcon = (priority) => {
-    switch (priority) {
-      case "low":
-        return (
-          <span className="priority-icon" title="Low">
-            <i className="fa-solid fa-circle" style={{ color: "green" }}></i>
-          </span>
-        );
-      case "medium":
-        return (
-          <span className="priority-icon" title="Medium">
-            <i
-              className="fa-solid fa-exclamation-circle"
-              style={{ color: "orange" }}
-            ></i>
-          </span>
-        );
-      case "high":
-        return (
-          <span className="priority-icon" title="High">
-            <i
-              className="fa-solid fa-exclamation-triangle"
-              style={{ color: "red" }}
-            ></i>
-          </span>
-        );
-      default:
-        return null;
-    }
-  };
+  // const renderPriorityIcon = (priority) => {
+  //   switch (priority) {
+  //     case "low":
+  //       return (
+  //         <span className="priority-icon" title="Low">
+  //           <i className="fa-solid fa-circle" style={{ color: "green" }}></i>
+  //         </span>
+  //       );
+  //     case "medium":
+  //       return (
+  //         <span className="priority-icon" title="Medium">
+  //           <i
+  //             className="fa-solid fa-exclamation-circle"
+  //             style={{ color: "orange" }}
+  //           ></i>
+  //         </span>
+  //       );
+  //     case "high":
+  //       return (
+  //         <span className="priority-icon" title="High">
+  //           <i
+  //             className="fa-solid fa-exclamation-triangle"
+  //             style={{ color: "red" }}
+  //           ></i>
+  //         </span>
+  //       );
+  //     default:
+  //       return null;
+  //   }
+  // };
 
-  const getDeadlineStatus = (dateStr) => {
-    if (!dateStr) return null;
+  const getDeadlineStatus = (endDateStr) => {
+    if (!endDateStr) return null;
 
     const now = new Date();
-    const deadline = new Date(dateStr);
+    const deadline = new Date(endDateStr);
 
-    // Reset giờ, phút, giây của ngày hiện tại để chỉ so sánh ngày
     now.setHours(0, 0, 0, 0);
     deadline.setHours(0, 0, 0, 0);
 
     const diff = deadline - now;
 
-    // Kiểm tra nếu deadline là hôm nay
-    if (diff === 0) return "near"; // Cảnh báo vàng nếu là hôm nay
-
-    // Kiểm tra nếu deadline đã quá hạn (qua ngày hôm sau)
-    if (diff < 0) return "overdue"; // Quá hạn nếu là trước hôm nay
-
-    // Không có cảnh báo nếu chưa đến hạn
+    if (diff === 0) return "near";
+    if (diff < 0) return "overdue";
     return null;
   };
 
-  const deadlineStatus = getDeadlineStatus(task.date);
+  const deadlineStatus = getDeadlineStatus(task.endDate);
 
   return (
     <Draggable draggableId={task.id} index={index}>
@@ -101,15 +95,17 @@ const TaskCard = ({ task, index, onDelete, onEdit }) => {
               <>
                 <div className="task-main">
                   <span>{task.content}</span>
-                  {task.priority && renderPriorityIcon(task.priority)}
+                  {/* {task.priority && renderPriorityIcon(task.priority)} */}
                 </div>
-                {task.date && (
+
+                {task.startDate && task.endDate && (
                   <div className={`task-date ${deadlineStatus}`}>
                     <i
                       className="fa-solid fa-calendar-days"
                       style={{ marginRight: 4 }}
                     ></i>
-                    {new Date(task.date).toLocaleDateString()}
+                    {new Date(task.startDate).toLocaleDateString()} &rarr;{" "}
+                    {new Date(task.endDate).toLocaleDateString()}
                     {deadlineStatus === "near" && (
                       <i
                         className="fa-solid fa-triangle-exclamation warning-icon"
