@@ -93,6 +93,10 @@ body {
   transition: transform 0.3s;
 }
 
+.add-task-popup.show{
+  background-color: var( --bg-color) ;
+}
+
 .toggle-switch.light {
   transform: translateX(0);
 }

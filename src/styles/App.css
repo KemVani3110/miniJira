@@ -247,7 +247,6 @@ h1 {
   .column {
     width: 100%;
     max-width: 100%;
-    min-width: auto;
     scroll-snap-align: none;
     margin-bottom: 10px;
   }
@@ -258,34 +257,10 @@ h1 {
     font-size: 14px;
   }
 
+  /* SỬA Ở ĐÂY NÈ */
   .add-task-form {
     flex-direction: column;
     gap: 10px;
-  }
-
-  .add-task-form input[type="text"] {
-    max-height: 50px;
-    padding: 20px;
-    width: 316px;
-  }
-
-  .add-task-form input[type="date"] {
-    margin: 0;
-    padding: 20px;
-    margin-right: 50px;
-    max-height: 50px;
-    max-width: 315px;
-  }
-
-  .add-task-form input {
-    position: relative;
-    top: 205px;
-  }
-
-  .add-task-form .priority-dropdown {
-    right: 10px;
-    max-height: 50px;
-    width: 335px;
   }
 
   .add-task-form input,
@@ -298,4 +273,18 @@ h1 {
     padding: 10px;
     box-sizing: border-box;
   }
+
+  .date-input-container {
+    width: 100%;
+  }
+
+  .add-task-form input[type="text"],
+  .add-task-form input[type="date"] {
+    max-height: 50px;
+  }
+
+  .add-task-form .priority-dropdown {
+    width: 100%;
+  }
+
 }

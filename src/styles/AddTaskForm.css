@@ -1,21 +1,49 @@
+/* Container cho popup */
+.add-task-popup {
+  margin-top: 12px;
+  background-color: var(--popup-bg, #fff);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeInUp 0.3s ease forwards;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Class điều khiển hiệu ứng hiển thị */
+.add-task-popup.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.add-task-popup.hide {
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  pointer-events: none;
+}
+
+/* Form chính */
 .add-task-form {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 10px;
   justify-content: space-between;
 }
 
+/* Input chung */
 .add-task-form input {
   flex: 1 1 250px;
   padding: 12px;
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+  background-color: var(--input-bg, #f9f9f9);
+  color: var(--text-color, #333);
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 8px;
   font-size: 14px;
-  box-sizing: border-box;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .add-task-form input:focus {
@@ -24,9 +52,10 @@
 }
 
 .add-task-form input::placeholder {
-  color: var(--placeholder-color);
+  color: var(--placeholder-color, #aaa);
 }
 
+/* Nút thêm task */
 .add-task-form button {
   padding: 12px 24px;
   background-color: #1e90ff;
@@ -35,10 +64,8 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  width: 100%;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  min-width: 100px;
-  max-width: 470px;
+  flex: 1 1 100%;
 }
 
 .add-task-form button:hover {
@@ -46,10 +73,10 @@
   transform: translateY(-2px);
 }
 
+/* Dropdown chọn priority */
 .priority-dropdown {
   position: relative;
-  width: 100%;
-  max-width: 335px;
+  flex: 1 1 250px;
   user-select: none;
   z-index: 20;
 }
@@ -58,11 +85,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  border: 1px solid var(--border-color);
+  padding: 10px 12px;
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 8px;
-  background-color: var(--input-bg);
-  color: var(--text-color);
+  background-color: var(--input-bg, #f9f9f9);
+  color: var(--text-color, #333);
   cursor: pointer;
   gap: 10px;
   transition: all 0.2s ease;
@@ -73,43 +100,45 @@
 
 .priority-selected:hover {
   border-color: #1e90ff;
+  background-color: #f0f8ff;
 }
 
 .dropdown-arrow {
   margin-left: auto;
   font-size: 12px;
+  color: #555;
 }
 
 .priority-options {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 6px);
   left: 0;
   right: 0;
-  background-color: var(--input-bg);
-  border: 1px solid var(--border-color);
+  background-color: var(--input-bg, #fff);
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 8px;
   z-index: 99;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 .priority-option {
-  padding: 10px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-radius: 0;
   white-space: nowrap;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .priority-option:hover {
   background-color: #f0f0f0;
 }
 
+/* Input ngày */
 .date-input-container {
   position: relative;
   flex: 1 1 250px;
@@ -119,18 +148,20 @@
   width: 100%;
 }
 
+/* Khi có lỗi */
 .date-input.error {
   border-color: #f44336;
   background-color: #ffebee;
 }
 
+/* Hiển thị lỗi */
 .error-popup {
   position: absolute;
   top: 100%;
   left: 0;
   background-color: #f44336;
   color: white;
-  padding: 6px;
+  padding: 6px 10px;
   border-radius: 6px;
   font-size: 12px;
   width: 100%;
@@ -146,4 +177,20 @@
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
+}
+
+@media (max-width: 600px) {
+  .add-task-form {
+    flex-direction: column;
+  }
+
+  .add-task-form button {
+    width: 100%;
+  }
+
+  .priority-dropdown,
+  .date-input-container {
+    width: 100%;
+    flex: 1 1 100% !important;
+  }
 }

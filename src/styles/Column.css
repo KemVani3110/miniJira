@@ -74,6 +74,52 @@
   transform: scale(1.2);
 }
 
+.add-task-popup-wrapper {
+  margin-top: 12px;
+}
+
+.toggle-add-task-btn {
+  background-color: var(--btn-bg, #1e90ff); 
+  color: var(--btn-text, #fff);
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(30, 144, 255, 0.25);
+}
+
+.toggle-add-task-btn:hover {
+  background-color: var(--btn-hover, #187bcd); 
+  transform: translateY(-1px);
+}
+
+
+.add-task-popup {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.add-task-popup.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.add-task-popup.hide {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+
 @media (max-width: 1024px) {
   .column {
     min-width: 80%;
